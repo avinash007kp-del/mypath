@@ -1,0 +1,13 @@
+{
+  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "react/jsx-no-comment-textnodes": "off"
+  }
+}

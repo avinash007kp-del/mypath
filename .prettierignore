@@ -1,0 +1,12 @@
+.next
+node_modules
+dist
+build
+coverage
+public
+.env*.local
+*.min.js
+*.min.css
+package-lock.json
+tsconfig.tsbuildinfo
+

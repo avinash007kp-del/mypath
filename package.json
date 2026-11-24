@@ -1,26 +1,55 @@
 {
   "name": "mypath",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "dev:turbo": "next dev --turbo",
+    "build": "EXPERIMENTAL_CPUS=1 next build",
+    "build:analyze": "ANALYZE=true EXPERIMENTAL_CPUS=1 next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "seed": "node --env-file=.env.local scripts/seed.mjs"
   },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "dependencies": {
-    "next": "16.4.6",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "@hookform/resolvers": "^3.9.1",
+    "@xyflow/react": "^12.3.6",
+    "clsx": "^2.1.1",
+    "html-to-image": "^1.11.11",
+    "lucide-react": "^0.468.0",
+    "mongoose": "^8.8.4",
+    "next": "14.2.24",
+    "openai": "^7.62.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.0",
+    "recharts": "^2.15.0",
+    "sonner": "^1.7.1",
+    "tailwind-merge": "^2.5.5",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@tailwindcss/turbopack": "4.3.3",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.4.6",
-    "tailwindcss": "4.3.3",
-    "typescript": "^5"
+    "@next/bundle-analyzer": "^16.4.6",
+    "@types/node": "^20.17.10",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.24",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.7",
+    "postcss": "^8.4.49",
+    "prettier": "^3.10.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
   }
 }
