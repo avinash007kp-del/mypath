@@ -8,7 +8,7 @@ interface WelcomeHeaderProps {
   efficiencyRating?: string;
 }
 
-export function WelcomeHeader({ efficiencyRating = "94.2% ARCHIVED" }: WelcomeHeaderProps) {
+export function WelcomeHeader({ efficiencyRating = "0.0% ARCHIVED" }: WelcomeHeaderProps) {
   return (
     <section className="relative grid w-full grid-cols-1 items-end gap-space-lg lg:grid-cols-12">
       {/* Ambient structural grid coordinate watermark */}

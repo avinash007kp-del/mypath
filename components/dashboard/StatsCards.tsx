@@ -74,8 +74,10 @@ export function StatsCards({ stats, isLoading, completionRate }: StatsCardsProps
         <div className="mt-space-md flex items-center justify-between border-t border-outline-variant/20 pt-space-md text-on-surface-variant">
           <span className="font-label-sm text-label-sm uppercase tracking-wide">
             {topicsInProgress > 0
-              ? `0${topicsInProgress} IN PROGRESS // 01 CRITICAL`
-              : "02 ON TRACK // 01 CRITICAL"}
+              ? `${String(topicsInProgress).padStart(2, "0")} IN PROGRESS // ACTIVE`
+              : topicsCompleted > 0
+                ? `${String(topicsCompleted).padStart(2, "0")} COMPLETED // ARCHIVED`
+                : "00 IN PROGRESS // STANDBY"}
           </span>
           <span className="material-symbols-outlined text-base text-secondary">trending_up</span>
         </div>
@@ -89,7 +91,7 @@ export function StatsCards({ stats, isLoading, completionRate }: StatsCardsProps
             // STAT_02
           </span>
           <span className="rounded-DEFAULT bg-secondary-container/40 px-space-xs py-0.5 font-label-sm text-label-sm uppercase text-secondary">
-            +18.4 HRS / WK
+            {hoursCount > 0 ? `+${hoursCount} HRS TOTAL` : "0.0 HRS / WK"}
           </span>
         </div>
 
@@ -110,16 +112,20 @@ export function StatsCards({ stats, isLoading, completionRate }: StatsCardsProps
           <div className="h-6 flex-1">
             <svg className="h-full w-full text-secondary" fill="none" viewBox="0 0 140 24">
               <path
-                d="M0 18 L20 14 L40 19 L60 8 L80 12 L100 4 L120 7 L140 2"
+                d={
+                  hoursCount > 0
+                    ? "M0 18 L20 14 L40 19 L60 8 L80 12 L100 4 L120 7 L140 2"
+                    : "M0 20 L140 20"
+                }
                 stroke="currentColor"
                 strokeLinecap="square"
                 strokeWidth="2"
               />
-              <circle cx="140" cy="2" fill="#d9eaa9" r="3" />
+              {hoursCount > 0 && <circle cx="140" cy="2" fill="#d9eaa9" r="3" />}
             </svg>
           </div>
           <span className="whitespace-nowrap font-label-sm text-label-sm uppercase text-tertiary-fixed">
-            7-DAY SURGE
+            {hoursCount > 0 ? "RECORDED CADENCE" : "CADENCE STANDBY"}
           </span>
         </div>
       </div>
@@ -155,9 +161,9 @@ export function StatsCards({ stats, isLoading, completionRate }: StatsCardsProps
               <div
                 key={idx}
                 className={
-                  idx < activeSegments - 1
+                  activeSegments > 0 && idx < activeSegments - 1
                     ? "bg-secondary"
-                    : idx === activeSegments - 1
+                    : activeSegments > 0 && idx === activeSegments - 1
                       ? "bg-tertiary-fixed"
                       : "bg-surface-variant"
                 }
@@ -165,8 +171,10 @@ export function StatsCards({ stats, isLoading, completionRate }: StatsCardsProps
             ))}
           </div>
           <div className="flex justify-between pt-0.5 font-label-sm text-label-sm text-outline">
-            <span>TARGET: 85% BY Q2</span>
-            <span className="text-tertiary-fixed">+4% DELTA</span>
+            <span>TARGET: 100% MASTERY</span>
+            <span className="text-tertiary-fixed">
+              {calcRate > 0 ? `+${calcRate}% PROGRESS` : "0% BASELINE"}
+            </span>
           </div>
         </div>
       </div>

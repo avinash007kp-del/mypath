@@ -5,21 +5,14 @@ import { WelcomeHeader } from "@/components/dashboard/WelcomeHeader";
 import { StatsCards } from "@/components/dashboard/StatsCards";
 import { FeaturedRoadmapSection } from "@/components/dashboard/FeaturedRoadmapSection";
 import { RecentRoadmaps } from "@/components/dashboard/RecentRoadmaps";
-import {
-  fetchDashboardStats,
-  fetchDashboardActivity,
-  fetchRoadmaps,
-  fetchLMSDashboardOverview,
-} from "@/services/api";
-import { DashboardStats, LearningActivityData, IRoadmap, DashboardLMSOverview } from "@/types";
+import { fetchDashboardStats, fetchRoadmaps } from "@/services/api";
+import { DashboardStats, IRoadmap } from "@/types";
 import { AlertCircle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [activity, setActivity] = useState<LearningActivityData | null>(null);
   const [roadmaps, setRoadmaps] = useState<IRoadmap[]>([]);
-  const [lmsOverview, setLmsOverview] = useState<DashboardLMSOverview | null>(null);
   const [loadingStats, setLoadingStats] = useState(true);
   const [loadingRoadmaps, setLoadingRoadmaps] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,20 +28,6 @@ export default function DashboardPage() {
         console.error("Failed to load stats:", err);
       })
       .finally(() => setLoadingStats(false));
-
-    // Fetch LMS Overview
-    fetchLMSDashboardOverview()
-      .then((data) => setLmsOverview(data))
-      .catch((err) => {
-        console.error("Failed to load LMS overview:", err);
-      });
-
-    // Fetch activity
-    fetchDashboardActivity()
-      .then((data) => setActivity(data))
-      .catch((err) => {
-        console.error("Failed to load activity:", err);
-      });
 
     // Fetch recent roadmaps
     setLoadingRoadmaps(true);
@@ -68,6 +47,13 @@ export default function DashboardPage() {
 
   // Featured roadmap: first active roadmap or null
   const featuredRoadmap = roadmaps && roadmaps.length > 0 ? roadmaps[0] : null;
+
+  // Real data-driven efficiency rating based on topics
+  const totalTopics = stats ? stats.topicsCompleted + stats.topicsInProgress : 0;
+  const efficiencyRating =
+    totalTopics > 0
+      ? `${Math.round((stats!.topicsCompleted / totalTopics) * 100)}% ARCHIVED`
+      : "0.0% ARCHIVED";
 
   return (
     <div className="flex w-full flex-col">
@@ -103,7 +89,7 @@ export default function DashboardPage() {
         )}
 
         {/* SECTION 1: ASYMMETRIC HERO ARCHITECTURE */}
-        <WelcomeHeader onDataRefresh={loadData} />
+        <WelcomeHeader onDataRefresh={loadData} efficiencyRating={efficiencyRating} />
 
         {/* SECTION 2: LEARNING OVERVIEW (3 BOLD ARCHITECTURAL STAT CARDS) */}
         <StatsCards stats={stats} isLoading={loadingStats} />
@@ -119,11 +105,11 @@ export default function DashboardPage() {
           <div className="flex items-center gap-space-sm">
             <span className="h-2 w-2 rounded-DEFAULT bg-secondary" />
             <span className="font-label-sm text-label-sm uppercase">
-              DATABASE SYNCED // ATLAS CLUSTER // LATENCY: 12MS
+              DATABASE SYNCED // ATLAS CLUSTER // STATUS: ONLINE
             </span>
           </div>
           <div className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">
-            MYPATH_SYSTEM_KERNEL // BUILD: 2026.04.12.BRUTAL
+            MYPATH_SYSTEM_KERNEL // CORE_V2.6
           </div>
         </div>
       </div>
